@@ -21,16 +21,15 @@ func main() {
 		return
 	}
 
-	// Initialize Redis nodes
+	// Initialize Redis nodes with consistent hashing
 	cache.InitializeNodes()
 	defer cache.Cleanup()
 
 	bookService := books.NewBookService(logger)
 
-	// Fetch book details
-	userRegion := "Europe"
+	// Fetch book details considering user region
 	bookKey := "book::1984"
-	bookDetails, err := bookService.FetchBookDetails(bookKey, userRegion)
+	bookDetails, err := bookService.FetchBookDetails(bookKey, "Europe")
 	if err != nil {
 		logger.Fatal("Failed to fetch book details", "err", err)
 	}
